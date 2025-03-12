@@ -8,20 +8,22 @@ function Login() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-           await client.auth.signInWithOtp({email,options:
-           {emailRedirectTo: 'http://localhost:3000'}});
-        }catch (e) {
+            await client.auth.signInWithOtp({
+                email, options:
+                    {emailRedirectTo: 'http://localhost:3000'}
+            });
+        } catch (e) {
             console.error(e);
         }
     }
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                    <label htmlFor="">type your email</label>
+                <label htmlFor="">type your email</label>
                 <input type="email" name="" id="" placeholder="youremailhere@site.com"
-                    onChange={(event)=> setEmail(event.target.value)}
+                       onChange={(event) => setEmail(event.target.value)}
                 />
-                    <button>send</button>
+                <button>send</button>
             </form>
         </div>
     );
