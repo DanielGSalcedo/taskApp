@@ -1,21 +1,31 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useState} from "react";
-import {client} from '../supabase/cliente.js';
+import {supabase} from '../supabase/cliente.js';
+import {useNavigate} from "react-router-dom";
 
 function Login() {
+    const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await client.auth.signInWithOtp({
-                email, options:
-                    {emailRedirectTo: 'http://localhost:3000'}
+            await supabase.auth.signInWithOtp({
+                email,
             });
         } catch (e) {
             console.error(e);
         }
     }
+    useEffect(() => {
+        supabase.auth.onAuthStateChange((event, session)=> {
+            if (!session) {
+                navigate("/login");
+            }else if (session){
+                navigate("/");
+            }
+        })
+    }, []);
     return (
         <div>
             <form onSubmit={handleSubmit}>
