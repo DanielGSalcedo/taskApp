@@ -9,14 +9,17 @@ export const TaskContext = createContext(this);
 export const TaskContextProvider = ({children}) => {
     const [tasks, setTasks] = useState([]);
     const [adding, setAdding] = useState(false);
-
+    const [loading, setLoading] = useState(false);
     const getTasks = async (done = false) => {
+
+        setLoading(true);
         const user = (await client.auth.getUser()).data.user;
         console.log(user);
         const {error, data} = await client.from("task").select().eq("user_id", user.id).eq("done",done).order("id",{ascending:true});
         console.log(data);
         if (error) throw error;
         setTasks(data);
+        setLoading(false);
     }
 
     const createTask = async (taskName) => {
@@ -34,7 +37,7 @@ export const TaskContextProvider = ({children}) => {
             setAdding(false);
         }
     }
-    return <TaskContext.Provider value={{tasks, getTasks, createTask, adding, setAdding}}>
+    return <TaskContext.Provider value={{tasks, getTasks, createTask, adding, setAdding, loading}}>
         {children}
     </TaskContext.Provider>
 }
