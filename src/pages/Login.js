@@ -18,18 +18,20 @@ function Login() {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="">Email</label>
+        <div className="page-container auth-page">
+            <form className="panel auth-form" onSubmit={handleSubmit}>
+                <h1>Task Organizer</h1>
+                <p>Ingresa tu correo para recibir un enlace de acceso.</p>
+                <label htmlFor="email">Email</label>
                 <input
                     type="email"
-                    name=""
-                    id=""
+                    name="email"
+                    id="email"
                     placeholder="youremail@gmail.com"
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                <button>
-                    send
+                <button className="button button-primary">
+                    Enviar
                 </button>
             </form>
         </div>

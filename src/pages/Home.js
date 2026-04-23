@@ -1,22 +1,34 @@
 import React, {useEffect} from 'react';
 import {client} from "../api/cliente";
 import {useNavigate} from "react-router-dom";
-import TaskForm from "../components/taskform";
-import TaskList from "../components/TaskList.js";
+import TaskForm from "../components/tasks/TaskForm";
+import TaskList from "../components/tasks/TaskList.js";
 
 function Home() {
     const navigate = useNavigate();
 
     useEffect(()=>{
-        if(!client.auth.getUser()){
-            navigate("/login");
-        }
+        const validateSession = async () => {
+            try {
+                const user = (await client.auth.getUser()).data.user;
+                if(!user){
+                    navigate("/login");
+                }
+            } catch (error) {
+                console.error(error);
+                navigate("/login");
+            }
+        };
+        validateSession();
     },[navigate])
     return (
-        <div>Home
-            <button onClick={()=>client.auth.signOut()}>
-                log out
-            </button>
+        <div className="page-container">
+            <header className="page-header">
+                <h1>Task Organizer</h1>
+                <button className="button button-secondary" onClick={()=>client.auth.signOut()}>
+                    Cerrar sesión
+                </button>
+            </header>
             <TaskForm/>
             <TaskList/>
         </div>

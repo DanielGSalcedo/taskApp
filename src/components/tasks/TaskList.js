@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useTask} from "../context/TaskContext";
+import {useTask} from "../../context/TaskContext";
 import TaskCard from "./TaskCard";
 
 function TaskList() {
@@ -7,17 +7,16 @@ function TaskList() {
 
     useEffect(() => {
         getTasks();
-    }, []);
+    }, [getTasks]);
 
-    function rederTasks() {
+    function renderTasks() {
         if (loading) {
-            return <div>Loading...</div>;
-        }else if(tasks.length === 0) {
-            return <p>No tasks found</p>;
-        }else
-        {
+            return <div className="panel">Cargando tareas...</div>;
+        } else if (tasks.length === 0) {
+            return <p className="panel">No hay tareas pendientes.</p>;
+        } else {
             return (
-                <div>
+                <div className="task-list">
                     {
                         tasks.map((task) => (
                             <TaskCard task={task} key = {task.id}/>
@@ -27,7 +26,7 @@ function TaskList() {
             );
         }
     }
-    return rederTasks()
+    return renderTasks()
 }
 
 export default TaskList;
